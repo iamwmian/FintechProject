@@ -1,0 +1,14 @@
+to start virtual environment (Windows)
+.venv/Scripts/activate
+
+to deactivate just type
+deactivate
+
+to install libraries
+python -m pip install [LIBRARY]
+
+to update library to latest
+py -m pip install -U [LIBRARY]
+
+to run django server
+py manage.py runserver
