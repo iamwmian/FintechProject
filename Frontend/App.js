@@ -8,10 +8,10 @@ import { StatusBar } from "expo-status-bar";
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <HomeStack/> */}
+      <HomeStack/>
       {/* <MyDrawer/> */}
-      <AuthenticationStack/>
-      <StatusBar style="light"/>
+      {/* <AuthenticationStack/>
+      <StatusBar style="light"/> */}
     </NavigationContainer>
   );
 }

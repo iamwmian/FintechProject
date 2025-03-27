@@ -42,10 +42,10 @@ export default function Settin() {
         </TouchableOpacity>
 
         <View>
-          <Text style={styles.profileName}>Matt Murdock</Text>
+          <Text style={styles.profileName}>John Doe</Text>
 
           <Text style={styles.profileEmail}>
-            matt.murdock@daredevil.com
+            john.doe@gmail.com
           </Text>
         </View>
       </View>

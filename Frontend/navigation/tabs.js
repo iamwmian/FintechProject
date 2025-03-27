@@ -24,14 +24,14 @@ export const HomeTabs = () => {
                 iconName = focused ? 'home' : 'home-outline'
             }
             else if (route.name == "QrCode") {
-                iconName = focused ? 'qr-code' : 'qr-code-outline'
+                iconName = focused ? 'person' : 'person-outline'
             }
 
             return <Ionicons name={iconName} size = {focused ? size : size} color = {color}/>
         }
     })}>
-      <Tab.Screen name="HomeTabs" options={{title:"Home"}} component={SettingsScreen} />
-      <Tab.Screen name="QrCode" component={QrCodeScreen} />
+      <Tab.Screen name="HomeTabs" options={{title:"Home"}} component={LoginScreen} />
+      <Tab.Screen name="QrCode" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
