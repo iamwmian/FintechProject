@@ -1,3 +1,17 @@
-"FintechProject" 
+FintechProject
 
-# Loading soon lol
+# Industry : FinTech 
+
+# Platform : Mobile Application 
+
+# Use Case 
+
+# Tech Stack
+
+# Roles 
+
+# Timeline
+
+
+
+
