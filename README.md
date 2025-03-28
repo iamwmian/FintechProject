@@ -25,27 +25,27 @@ Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budg
 5) Additional Features - dark mode? predictive insights? reccomendations? 
 
 # Tech Stack
-Backend: Django, Python, *libraries: Currency Conversion, Data Manipulation, Numerical Operations 
-Front-end: React-Native
-API's: Stripe
-Database Management: PostgreSQL
-Version Control: GitHub 
+Backend: Django, Python, *libraries: Currency Conversion, Data Manipulation, Numerical Operations   
+Front-end: React-Native  
+API's: Stripe  
+Database Management: PostgreSQL  
+Version Control: GitHub   
 
 # Tools and AI
 
 # Roles 
-Wassil - product/project manager
-David - developer 
-Yoon - developer 
-Neal - developer
-ybaavv (*update to first name lol) - developer
+Wassil - product/project manager  
+David - developer   
+Yoon - developer   
+Neal - developer  
+ybaavv (*update to first name lol) - developer  
 
 # Timeline
-March/28/2025: Team meeting + purpose finding 
-April/1/2025 - 24th : Build out MVP and establish tech stack
-April/25/2025:  Debugging/Code Review + User Acceptance Testing
-May/1/2025: MVP functional and working
-May/1/2025 - : Feature Engineering + UI/UX Enhancements 
+March/28/2025: Team meeting + purpose finding   
+April/1/2025 - 24th : Build out MVP and establish tech stack  
+April/25/2025:  Debugging/Code Review + User Acceptance Testing  
+May/1/2025: MVP functional and working  
+May/1/2025 - : Feature Engineering + UI/UX Enhancements   
 
 
 
