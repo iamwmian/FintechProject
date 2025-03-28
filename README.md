@@ -1,10 +1,15 @@
 [App Name]
 
-# Industry : FinTech 
-# Platform : Mobile Application 
-# Service: Budgeting
-# Target User: Travellers spending in a currency foriegn to their home country 
-# Opportunity: Standard banking platforms fail to provide multi-currency support 
+# Industry
+FinTech 
+# Platform
+Mobile Application 
+# Service
+Budgeting
+# Target User
+Travellers spending in a currency foriegn to their home country 
+# Opportunity
+Standard banking platforms fail to provide multi-currency support 
 
 # Use Case 
 Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budget but quickly realizes tracking expenses in Yen while thinking in Dollars is tricky. ¥500 for coffee sounds small, but how does it fit into the overall USD budget? Without constant mental gymnastics or manual tracking, it's easy to lose sight of the bigger financial picture. Standard banking apps offer little help here, lacking integrated multi-currency tools.
