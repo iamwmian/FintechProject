@@ -1,3 +1,3 @@
-"# FintechProject" 
+"FintechProject" 
 
 # Loading soon lol
