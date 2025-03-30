@@ -32,7 +32,11 @@ API's: Stripe
 Database Management: PostgreSQL  
 Version Control: GitHub   
 
-# Tools and AI
+# AI Tools
+1. https://bolt.new/
+2. https://app.webcrumbs.ai/frontend-ai
+3. https://v0.dev/chat
+4. https://www.guidde.com - we will use this to produce a how-to video for our pitch deck
 
 # Roles 
 Wassil - product/project manager  
