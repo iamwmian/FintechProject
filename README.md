@@ -7,7 +7,7 @@ Mobile Application
 # Service
 Budgeting
 # Target User
-Travellers spending in a currency foriegn to their home country 
+Travellers spending in a currency foreign to their home country 
 # Opportunity
 Standard banking platforms fail to provide multi-currency support 
 
@@ -33,24 +33,24 @@ Database Management: PostgreSQL
 Version Control: GitHub   
 
 # AI Tools
-1. https://bolt.new/
+1. https://bolt.new/  
 2. https://app.webcrumbs.ai/frontend-ai
 3. https://v0.dev/chat
 4. https://www.guidde.com - we will use this to produce a how-to video for our pitch deck
 
-# Roles 
-Wassil - product/project manager  
-David - developer   
-Yoon - developer   
-Neal - developer  
-ybaavv (*update to first name lol) - developer  
+# Roles & Contributions      
+Product/Project Manager: Wassil - lead and set up weekly meetings, organize .readme file        
+Developer: David - user login and authentication          
+Developer: Yoon - initial set up and user welcome     
+Developer: Neal - dashboard and tabs     
+Developer: ybaavv (*update to first name lol) -    
 
 # Timeline
-March/28/2025: Team meeting + purpose finding   
-April/1/2025 - 24th : Build out MVP and establish tech stack  
-April/25/2025:  Debugging/Code Review + User Acceptance Testing  
-May/1/2025: MVP functional and working  
-May/1/2025 - : Feature Engineering + UI/UX Enhancements   
+March/28/2025: Team meeting + purpose finding      
+April/1/2025 - April/24/2025: Build out MVP and establish tech stack    
+April/25/2025:  Debugging/Code Review + User Acceptance Testing    
+May/1/2025: MVP functional and working    
+May/1/2025 - : Feature Engineering + UI/UX Enhancements     
 
 
 
