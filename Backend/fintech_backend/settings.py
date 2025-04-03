@@ -25,10 +25,18 @@ SECRET_KEY = 'django-insecure-hl8vuveyhwz)6e%!tym#wjizpv65vu@y^3l^jrk*b75su^r4g%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '10.0.2.2', '127.0.0.1']
 
 
 # Application definition
+
+AUTH_USER_MODEL = 'api.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework_simplejwt',
     'api',
+    'fintech_backend',
+    'corsheaders'
+    
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -48,9 +60,12 @@ CORS_ALLOWED_ORIGINS = [
     # "http://example.com",
 ]
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -8,6 +8,8 @@ import ProfileScreen from "../screens/profiles/profiles-screen";
 import { HomeTabs } from "./tabs";
 import LoginScreen from "../screens/SignIn/LoginScreen";
 import RegisterScreen from "../screens/Register/RegisterScreen";
+import SignInScreen from "../screens/SignIn/SignIn";
+import SignUpScreen from "../screens/Register/SignUp";
 
 const Stack = createStackNavigator();
 
@@ -25,8 +27,10 @@ export const AuthenticationStack = () => {
   const navgation = useNavigation()
   return (
     <Stack.Navigator screenOptions={() => navOptions(navgation)}>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      {/* <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} /> */}
+      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} /> 
     </Stack.Navigator>
   );
 };

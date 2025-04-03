@@ -12,3 +12,7 @@ py -m pip install -U [LIBRARY]
 
 to run django server
 py manage.py runserver
+
+to make migrations
+python manage.py makemigrations
+python manage.py migrate
