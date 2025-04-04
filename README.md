@@ -20,9 +20,9 @@ Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budg
 # Tabs
 1) User Login - includes account and password setup
 2) Initial Setup - selects home currency and additional countries (search bar + flags with their currency ticker)
-3) Dashboard - shows "donut" of current budget and spending summary for 2 or more currencies 
 4) Budget Manipulation - allows you to increase/decrease budget allocation for each spending category
-5) Additional Features - dark mode? predictive insights? reccomendations? 
+5) Dashboard - shows "donut" of current budget and spending summary for 2 or more currencies
+6) Additional Features - dark mode? predictive insights? reccomendations? 
 
 # Tech Stack
 Backend: Django, Python    
