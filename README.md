@@ -17,12 +17,14 @@ Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budg
 [Your App Name] is designed for students like Alex. Our app automatically converts and tracks spending in real-time, displaying amounts in both JPY and USD. Alex can now confidently navigate Tokyo, knowing exactly how each purchase impacts their original budget, freeing them up to focus on their studies and cultural experience.
 
 
-# Tabs
-1) User Login - includes account and password setup
-2) Initial Setup - selects home currency and additional countries (search bar + flags with their currency ticker)
-4) Budget Manipulation - allows you to increase/decrease budget allocation for each spending category
-5) Dashboard - shows "donut" of current budget and spending summary for 2 or more currencies
-6) Additional Features - dark mode? predictive insights? reccomendations? 
+# User Experience 
+1) User Login/Creation - includes account and password setup    
+2) Initial Setup  
+   - selects home currency and additional countries (search bar + flags with their currency ticker)   
+   - decides spending categories + how much to spend for each category   
+3) Dashboard/Home Page - shows "donut" of current budget and spending summary for 2 or more currencies + category display below    
+4) Budget Manipulation - allows you to increase/decrease budget allocation for each spending category + manipulate transactions    
+5) General Settings - user settings, password change, dark mode, predictive insights? reccomendations?     
 
 # Tech Stack
 Backend: Django, Python    
