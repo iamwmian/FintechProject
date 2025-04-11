@@ -1,9 +1,9 @@
 from django.urls import path
-from ..views.auth_views import SignInView, SignUpView
+from ..views.auth_views import  ClerkUserSyncView, OnboardView
 
 
 urlpatterns = [
-    path('signin/', SignInView.as_view()),
-	path('signup/', SignUpView.as_view())
+    path("sync-user/", ClerkUserSyncView.as_view(), name="sync_user"),
+    path('onboard/', OnboardView.as_view(), name='onboard'),
 ]
 

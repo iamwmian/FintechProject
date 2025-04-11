@@ -13,6 +13,9 @@ py -m pip install -U [LIBRARY]
 to run django server
 py manage.py runserver
 
+since i am testing on the expo app with an android I need to use this so that I can connect it to the frontend on my phone.
+python manage.py runserver 0.0.0.0:8000
+
 to make migrations
 python manage.py makemigrations
 python manage.py migrate

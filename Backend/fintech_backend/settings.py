@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Load environment variables from .env file
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,8 +30,8 @@ SECRET_KEY = 'django-insecure-hl8vuveyhwz)6e%!tym#wjizpv65vu@y^3l^jrk*b75su^r4g%
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['localhost', '10.0.2.2', '127.0.0.1']
+CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ['localhost', '10.0.2.2', '127.0.0.1', '11.21.6.221']
 
 
 # Application definition
@@ -33,9 +39,18 @@ ALLOWED_HOSTS = ['localhost', '10.0.2.2', '127.0.0.1']
 AUTH_USER_MODEL = 'api.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',  
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        # "api.authentication.jwt_auth.JWTAuthenticationMiddleware",
+        # "rest_framework.authentication.BasicAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
+        'api.authentication.jwt_auth.JWTAuthenticationMiddleware'
+    ],
 }
 
 INSTALLED_APPS = [
@@ -50,7 +65,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'api',
     'fintech_backend',
-    'corsheaders'
+    'corsheaders',
+    'requests'
     
 ]
 
@@ -60,7 +76,7 @@ CORS_ALLOWED_ORIGINS = [
     # "http://example.com",
 ]
 
-
+# CLERK_API_KEY = os.environ.get("CLERK_API_KEY", "your-secret-api-key")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,3 +161,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+####################

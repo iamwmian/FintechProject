@@ -1,102 +1,84 @@
-# from django.contrib.auth import authenticate
-# from django.shortcuts import render
-# from rest_framework.permissions import AllowAny
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from ..serializers import UserSerializer, SignUpSerializer
-
-
-
-# def get_auth_for_user(user):
-# 	tokens = RefreshToken.for_user(user)
-# 	return {
-# 		'user': UserSerializer(user).data,
-# 		'tokens': {
-# 			'access': str(tokens.access_token),
-# 			'refresh': str(tokens),
-# 		}
-# 	}
-
-
-# class SignInView(APIView):
-# 	permission_classes = [AllowAny]
-
-# 	def post(self, request):
-# 		username = request.data.get('username')
-# 		password = request.data.get('password')
-# 		if not username or not password:
-# 			return Response(status=400)
-		
-# 		user = authenticate(username=username, password=password)
-# 		if not user:
-# 			return Response(status=401)
-
-# 		user_data = get_auth_for_user(user)
-
-# 		return Response(user_data)
-
-
-# class SignUpView(APIView):
-# 	permission_classes = [AllowAny]
-
-# 	def post(self, request):
-# 		new_user = SignUpSerializer(data=request.data)
-# 		new_user.is_valid(raise_exception=True)
-# 		user = new_user.save()
-
-# 		user_data = get_auth_for_user(user)
-
-# 		return Response(user_data)
-
-
-from django.contrib.auth import get_user_model, authenticate
-from django.shortcuts import render
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
-from ..serializers.user import UserSerializer, SignUpSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from django.conf import settings
+from api.models import User
+import requests
+import jwt
 
-def get_auth_for_user(user):
-    tokens = RefreshToken.for_user(user)
-    return {
-        'user': UserSerializer(user).data,
-        'tokens': {
-            'access': str(tokens.access_token),
-            'refresh': str(tokens),
-        }
-    }
+from rest_framework.permissions import IsAuthenticated
+from ..serializers.user import UserSerializer
+import environ
+env = environ.Env()
+CLERK_JWKS_URL = f"{env('CLERK_FRONTEND_API_URL')}.well-known/jwks.json"  # Replace with your Clerk instance
 
-class SignInView(APIView):
+class ClerkUserSyncView(APIView):
     permission_classes = [AllowAny]
 
-    def post(self, request):
-        email = request.data.get('email')  # Expecting 'email' instead of 'username'
-        password = request.data.get('password')
-
-        if not email or not password:
-            return Response({"detail": "Email and password are required."}, status=400)
+    def post(self, request, *args, **kwargs):
         
-        # Use authenticate with email instead of username
-        user = authenticate(request, email=email, password=password)
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return Response({"error": "No token provided"}, status=401)
+
+        token = auth_header.split(" ")[1]
+        print(token)
         
-        if not user:
-            return Response({"detail": "Invalid credentials."}, status=401)
+        try:
+            jwks = requests.get(CLERK_JWKS_URL).json()
+            public_keys = {
+                key['kid']: jwt.algorithms.RSAAlgorithm.from_jwk(key)
+                for key in jwks['keys']
+            }
+            
+            header = jwt.get_unverified_header(token)
+            key = public_keys[header['kid']]
 
-        user_data = get_auth_for_user(user)
+            decoded = jwt.decode(
+                token,
+                key=key,
+                algorithms=["RS256"],
+                audience=env("CLERK_FRONTEND_API_URL")
+            )
+        except Exception as e:
+            return Response({"error": f"Invalid token: {str(e)}"}, status=403)
+            
 
-        return Response(user_data)
+        # 3. Sync or create user
+        data = request.data
+        clerk_id = data.get("clerk_id")
+        email = data.get("email")
+        first_name = data.get("first_name", "")
+        last_name = data.get("last_name", "")
+
+        if not clerk_id or not email:
+            return Response({"error": "Missing clerk_id or email"}, status=400)
+
+        user, created = User.objects.update_or_create(
+            clerk_id=clerk_id,
+            defaults={
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+            },
+        )
+
+        return Response({
+            "success": True,
+            "created": created,
+            "user_id": user.id
+        })
 
 
-class SignUpView(APIView):
-    permission_classes = [AllowAny]
 
-    def post(self, request):
-        new_user = SignUpSerializer(data=request.data)
-        new_user.is_valid(raise_exception=True)
-        user = new_user.save()
 
-        user_data = get_auth_for_user(user)
 
-        return Response(user_data)
+
+
+class OnboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
