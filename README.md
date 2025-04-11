@@ -43,7 +43,6 @@ Product/Project Manager: Wassil - determine scope, lead weekly meetings, organiz
 Developer: David - user login and authentication          
 Developer: Yoon - initial set up and user welcome     
 Developer: Neal - dashboard and tabs     
-Developer: ybaavv (*update to first name lol) -    
 
 # Timeline
 March/28/2025: Team meeting + purpose finding      
