@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "./login-styles";
 import { COLORS } from "../../common/theme";
-import illustration from "../assets/Currency-rafiki.png";
+import illustration from "../../assets/Currency-rafiki.png"
 import { Fontisto } from "@expo/vector-icons";
 import { useSSO } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
