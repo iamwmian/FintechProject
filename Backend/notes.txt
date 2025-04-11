@@ -22,4 +22,4 @@ python manage.py migrate
 
 
 to install from requirements folder
-pip install -r requirements.txt
+py -m pip install -r requirements.txt
