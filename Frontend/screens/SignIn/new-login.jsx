@@ -5,13 +5,14 @@ import { COLORS } from "../../common/theme";
 import illustration from "../../assets/Currency-rafiki.png"
 import { Fontisto } from "@expo/vector-icons";
 import { useSSO } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
-import { useAuth } from "@clerk/clerk-expo";
+import { BASE_URL } from "@env"
+import { useAuth  } from "@clerk/clerk-expo";
 import axios from "axios";
 export const NewLogin = ({ navigation }) => {
   const { startSSOFlow } = useSSO();
-  const router = useRouter();
+
   const { getToken } = useAuth();
+
   const handleGoogleSignIn = async () => {
     try {
       const { createdSessionId, setActive } = await startSSOFlow({
@@ -19,56 +20,35 @@ export const NewLogin = ({ navigation }) => {
       });
       if (setActive && createdSessionId) {
         await setActive({ session: createdSessionId });
-
         // get token
         const token = await getToken();
         // then make post request to the server
-        await sendTokenToBackend(token);
+        await onboardUser(token);
       }
     } catch (error) {
       console.log("OAuth Error: ", error);
     }
   };
   
-  const sendTokenToBackend = async (token) => {
+  const onboardUser = async (token) => {
     try {
-      // Sending the token to the Django backend API using Axios
-      const BASE_URL = "http://11.21.6.221:8000"
-      const temp = await axios.get(
-        `${BASE_URL}/api/random-transaction/`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-           
-          },
-        }
-      );
-      console.log("YOOO", temp.data, '\n');
-      console.log(token);
-
-      const response = await axios.post(
-        `${BASE_URL}/api/sync-user/`, // Replace with your backend URL
-        {
-          someData: "value", // Include any additional data if needed
+      const res = await axios.get(`${BASE_URL}/api/onboard/`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Send the Clerk JWT token
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Backend Response:", response.data);
-        // Handle backend response here (e.g., store user data)
-      } else {
-        console.error("Backend Error:", response.data);
-      }
-    } catch (error) {
-      console.error("Error sending token to backend:", error, error.message, "\n" ,error.config);
+      });
+  
+      const userData = res.data;
+      console.log("User onboarded:", userData);
+      // need to store the data
+  
+    } catch (err) {
+      console.error("Onboarding error:", err);
+      // maybe show fail ui
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>
@@ -79,7 +59,7 @@ export const NewLogin = ({ navigation }) => {
         <Text style={styles.appName}>Fintech App</Text>
         {/* <Text style={styles.tagline}>some sub text or something</Text> */}
         <Text style={styles.tagline}>
-          Keep track of your finances all across the globe!
+          smart budgeting for a borderless world
         </Text>
       </View>
 
