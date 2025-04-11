@@ -122,6 +122,13 @@ function SignInScreen({ navigation }) {
 							title='Sign In' 
 							onPress={onSignIn} 
 						/>
+						<Text style={{textAlign:'center', 'marginTop': 20}}>
+							OR
+						</Text>
+						<Button 
+							title='Sign In Via Google!' 
+							onPress={() => {console.log("Google")}} 
+						/>
 
 						<Text style={{ textAlign: 'center', marginTop: 40 }}>
 							Don't have an account? <Text 

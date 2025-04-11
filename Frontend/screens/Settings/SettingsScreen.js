@@ -12,7 +12,7 @@ import {
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function Settin() {
+export default function SettingsScreen() {
   const [form, setForm] = useState({
     darkMode: false,
     emailNotifications: true,

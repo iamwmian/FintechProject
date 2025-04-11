@@ -5,7 +5,8 @@ import {
 	SafeAreaView, 
 	Text, 
 	View, 
-	TouchableWithoutFeedback 
+	TouchableWithoutFeedback,
+	ScrollView
 } from "react-native"
 import Input from "../../common/Input"
 import Button from "../../common/Button"
@@ -112,74 +113,70 @@ function SignUpScreen({ navigation }) {
 			<KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
 				{/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
 				<TouchableWithoutFeedback>
-					<View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 16 }}>
-
-						<Text 
-							style={{ 
-								textAlign: 'center', 
-								marginBottom: 24, 
-								fontSize: 36, 
-								fontWeight: 'bold' 
-							}}
-						>
-							Sign Up
-						</Text>
-
-						<Input 
-							title='Email' 
-							value={email}
-							error={emailError}
-							setValue={setEmail}
-							setError={setEmailError}
-						/>
-
-						<Input 
-							title='First Name'
-							value={firstName}
-							error={firstNameError}
-							setValue={setFirstName}
-							setError={setFirstNameError}
-						/>
-
-						<Input 
-							title='Last Name'
-							value={lastName}
-							error={lastNameError}
-							setValue={setLastName}
-							setError={setLastNameError}
-						/>
-						
-						<Input 
-							title='Password'
-							value={password1}
-							error={password1Error}
-							setValue={setPassword1}
-							setError={setPassword1Error}
-							secureTextEntry={true}
-						/>
-
-						<Input 
-							title='Retype Password'
-							value={password2}
-							error={password2Error}
-							setValue={setPassword2}
-							setError={setPassword2Error}
-							secureTextEntry={true}
-						/>
-
-						<Button title='Sign Up' onPress={onSignUp} />
-
-						<Text style={{ textAlign: 'center', marginTop: 40 }}>
-							Already have an account? <Text 
-								style={{ color: 'blue' }}
-								onPress={() => navigation.goBack()}
+					<ScrollView>
+						<View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 16 }}>
+							<Text
+								style={{
+									textAlign: 'center',
+									marginBottom: 24,
+									fontSize: 36,
+									fontWeight: 'bold'
+								}}
 							>
-								Sign In
+								Sign Up
 							</Text>
-						</Text>
-
-
-					</View>
+							<Input
+								title='Email'
+								value={email}
+								error={emailError}
+								setValue={setEmail}
+								setError={setEmailError}
+							/>
+							<Input
+								title='First Name'
+								value={firstName}
+								error={firstNameError}
+								setValue={setFirstName}
+								setError={setFirstNameError}
+							/>
+							<Input
+								title='Last Name'
+								value={lastName}
+								error={lastNameError}
+								setValue={setLastName}
+								setError={setLastNameError}
+							/>
+						
+							<Input
+								title='Password'
+								value={password1}
+								error={password1Error}
+								setValue={setPassword1}
+								setError={setPassword1Error}
+								secureTextEntry={true}
+							/>
+							<Input
+								title='Retype Password'
+								value={password2}
+								error={password2Error}
+								setValue={setPassword2}
+								setError={setPassword2Error}
+								secureTextEntry={true}
+							/>
+							<Button title='Sign Up' onPress={onSignUp} />
+							<Text style={{ textAlign: 'center', marginTop: 40 }}>
+								Already have an account? <Text
+									style={{ color: 'blue' }}
+									onPress={() => navigation.navigate("SignIn")}
+								>
+									Sign In
+								</Text>
+							</Text>
+						
+							<Text style={{textAlign : 'center', marginTop : 40}}>Or</Text>
+							<Button title='Or Sign Up With Google' onPress={onSignUp} />
+						</View>
+					</ScrollView>
 				</TouchableWithoutFeedback>
 			</KeyboardAvoidingView>
 		</SafeAreaView>
