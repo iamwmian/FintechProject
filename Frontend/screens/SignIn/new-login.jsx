@@ -21,7 +21,9 @@ export const NewLogin = ({ navigation }) => {
       if (setActive && createdSessionId) {
         await setActive({ session: createdSessionId });
         // get token
-        const token = await getToken();
+        //const token = await getToken();
+        const token = await getToken({template:"session_jwt"})
+        console.log("Token from Clerk: ", token);
         // then make post request to the server
         await onboardUser(token);
       }
@@ -32,14 +34,22 @@ export const NewLogin = ({ navigation }) => {
   
   const onboardUser = async (token) => {
     try {
+      console.log("BASE URL: ", BASE_URL);
+      console.log("Token: ", token);
+      console.log("Request Headers:", {
+        "Authorization": `Bearer ${token}`,
+      });
+      
       const res = await axios.get(`${BASE_URL}/api/onboard/`, {
         headers: {
           "Authorization": `Bearer ${token}`,
         },
       });
   
-      const userData = res.data;
-      console.log("User onboarded:", userData);
+      const { user, is_new } = res.data;
+      console.log(res.data);
+      console.log("User onboarded:", user);
+      console.log("Is New: ", is_new)
       // need to store the data
   
     } catch (err) {

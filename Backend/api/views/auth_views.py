@@ -70,15 +70,23 @@ class ClerkUserSyncView(APIView):
         })
 
 
+# class OnboardView(APIView):
+#     permission_classes = [IsAuthenticated]
 
-
-
-
+#     def get(self, request):
+#         user = request.user
+#         serializer = UserSerializer(user)
+#         return Response(serializer.data)
 
 class OnboardView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user = request.user
+        is_new_user = getattr(user, "_was_created", False)
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response({
+            "user": serializer.data,
+            "is_new": is_new_user
+        })
+

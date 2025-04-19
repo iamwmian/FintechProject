@@ -14,6 +14,7 @@ import { View, Text } from "react-native";
 import Splash from "../screens/Splash/Splash";
 import { TabLayout } from "./tabs";
 import { NewLogin } from "../screens/SignIn/new-login";
+import { Setup } from "../screens/Setup/Setup";
 const Stack = createStackNavigator();
 
 // export const HomeStack = () => {
@@ -54,6 +55,15 @@ export const SplashStack = () => {
   return (
     <Stack.Navigator screenOptions={() => navOptions(navigation)}>
       <Stack.Screen name = "Splash" component={<Splash/>}/>
+    </Stack.Navigator>
+  )
+}
+
+export const SetupStack = () => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator screenOptions={() => navOptions(navigation)}>
+      <Stack.Screen name = "Setup" component={Setup}/>
     </Stack.Navigator>
   )
 }

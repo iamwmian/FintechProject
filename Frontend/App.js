@@ -12,6 +12,7 @@ import { Slot } from "expo-router";
 import {
   AuthenticationStack,
   ProfileStack,
+  SetupStack,
   SplashStack,
 } from "./navigation/stack";
 import "react-native-gesture-handler";
@@ -29,21 +30,21 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const RootNavigator = () => {
   const { isSignedIn, isLoaded } = useAuth(); // or your custom auth state
-
+  const [isNew, setIsNew] = useState(true)
   if (!isLoaded) return null; // or a splash screen
 
   return (
     <NavigationContainer>
-      {isSignedIn ? (
-        <SafeAreaProvider>
-          <SafeAreaView style={{ flex: 1 }}>
-            <AppStack />
-          </SafeAreaView>
-        </SafeAreaProvider>
-      ) : (
-        <AuthenticationStack />
-      )}
-    </NavigationContainer>
+    {!isSignedIn ? (
+      <AuthenticationStack />
+    ) : (
+      <SafeAreaProvider>
+        <SafeAreaView style={{ flex: 1 }}>
+          {isNew ? <SetupStack /> : <AppStack />}
+        </SafeAreaView>
+      </SafeAreaProvider>
+    )}
+  </NavigationContainer>
   );
 };
 
