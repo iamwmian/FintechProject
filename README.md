@@ -22,8 +22,8 @@ Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budg
 2) Initial Setup  
    - selects home currency and additional countries (search bar + flags with their currency ticker)   
    - decides spending categories + how much to spend for each category   
-3) Dashboard/Home Page - shows "donut" of current budget and spending summary for 2 or more currencies + category display below    
-4) Budget Manipulation - allows you to increase/decrease budget allocation for each spending category + manipulate transactions    
+3) Dashboard/Home Page - shows "donut" of current budget and spending summary for 2 or more currencies + category display below with filter by date feature 
+4) Budget Manipulation - allows you to increase/decrease budget allocation for each spending category + manipulate transactions + automatic budget conversion 
 5) General Settings - user settings, password change, dark mode, predictive insights? reccomendations?     
 
 # Tech Stack
