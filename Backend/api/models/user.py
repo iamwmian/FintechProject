@@ -24,6 +24,7 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     clerk_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    complete_setup = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     objects = UserManager()

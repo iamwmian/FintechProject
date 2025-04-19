@@ -19,7 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'name',
-            'clerk_id'
+            'clerk_id',
+            'complete_setup'
         ]
         
     def get_name(self, obj):
