@@ -1,6 +1,7 @@
 import { useClerk } from '@clerk/clerk-expo'
 import * as Linking from 'expo-linking'
 import { Text, TouchableOpacity } from 'react-native'
+import { useAuthStore } from '../core/global'
 
 export const SignOutButton = () => {
   const { signOut } = useClerk()
@@ -8,6 +9,7 @@ export const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
       await signOut()
+      useAuthStore.getState().logout();
       // Redirect to your desired page
       Linking.openURL(Linking.createURL('/'))
     } catch (err) {

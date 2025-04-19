@@ -16,9 +16,7 @@ import {
   SplashStack,
 } from "./navigation/stack";
 import "react-native-gesture-handler";
-import { View, Text } from "react-native";
-import { MyDrawer } from "./navigation/drawer";
-import { StatusBar } from "expo-status-bar";
+import {useAuthStore} from "./core/global";
 import useGlobal from "./core/global";
 import * as SecureStore from "expo-secure-store";
 import ProfileDetailScreen from "./screens/profiles/profiles-detail-screen";
@@ -30,53 +28,44 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const RootNavigator = () => {
   const { isSignedIn, isLoaded } = useAuth(); // or your custom auth state
-  const [isNew, setIsNew] = useState(true)
+  const isNewUser = useAuthStore((state) => state.isNewUser);
   if (!isLoaded) return null; // or a splash screen
-
+  console.log("Is New User: ", isNewUser);
+  // instead of using the clerk sign in, I might just check if my token exists
+  // also for the init logic, I'll verify my token on the backend and if invalid then call to reset it else continue to main app.
   return (
     <NavigationContainer>
-    {!isSignedIn ? (
-      <AuthenticationStack />
-    ) : (
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          {isNew ? <SetupStack /> : <AppStack />}
-        </SafeAreaView>
-      </SafeAreaProvider>
-    )}
-  </NavigationContainer>
+      {!isSignedIn ? (
+        <AuthenticationStack />
+      ) : (
+        <SafeAreaProvider>
+          <SafeAreaView style={{ flex: 1 }}>
+            {isNewUser ? <SetupStack /> : <AppStack />}
+          </SafeAreaView>
+        </SafeAreaProvider>
+      )}
+    </NavigationContainer>
   );
 };
 
 export default function App() {
-  const initialized = useGlobal((state) => state.initialized);
-  const authenticated = useGlobal((state) => state.authenticated);
-
-  const init = useGlobal((state) => state.init);
-
-
+  const hydrated = useAuthStore((state) => state.hydrated);
   useEffect(() => {
-    init();
-    console.log("INit:? ", initialized, " Auth??", authenticated);
+    console.log("Calling hydrate")
+    useAuthStore.getState().hydrate();
   }, []);
+
+  if (!hydrated) {
+    return (
+      <NavigationContainer>
+         <SplashStack />
+      </NavigationContainer>
+    );
+  }
 
   return (
     <ClerkProvider tokenCache={tokenCache}>
-      {/* <NavigationContainer>
-        <StatusBar style="dark" />
-        <SignedIn>
-          <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-              <AppStack />
-            </SafeAreaView>
-          </SafeAreaProvider>
-          <SignOutButton />
-        </SignedIn>
-        <SignedOut>
-          <AuthenticationStack />
-        </SignedOut>
-      </NavigationContainer> */}
-      <RootNavigator/>
+      <RootNavigator />
     </ClerkProvider>
   );
 }

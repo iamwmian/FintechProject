@@ -8,6 +8,7 @@ import { useSSO } from "@clerk/clerk-expo";
 import { BASE_URL } from "@env"
 import { useAuth  } from "@clerk/clerk-expo";
 import axios from "axios";
+import { useAuthStore } from "../../core/global";
 export const NewLogin = ({ navigation }) => {
   const { startSSOFlow } = useSSO();
 
@@ -21,7 +22,7 @@ export const NewLogin = ({ navigation }) => {
       if (setActive && createdSessionId) {
         await setActive({ session: createdSessionId });
         // get token
-        //const token = await getToken();
+        // const token = await getToken();
         const token = await getToken({template:"session_jwt"})
         console.log("Token from Clerk: ", token);
         // then make post request to the server
@@ -49,8 +50,15 @@ export const NewLogin = ({ navigation }) => {
       const { user, is_new } = res.data;
       console.log(res.data);
       console.log("User onboarded:", user);
-      console.log("Is New: ", is_new)
+      console.log("Is New: ", user.complete_setup)
       // need to store the data
+      // if the user has completed the set up then they are NOT a new user
+      // so I have to set the flag to opposite.
+      useAuthStore.getState().setAuth({
+        token: token,
+        isNewUser: !user.complete_setup,
+        user: user, 
+      });
   
     } catch (err) {
       console.error("Onboarding error:", err);
@@ -68,7 +76,7 @@ export const NewLogin = ({ navigation }) => {
         </View>
         <Text style={styles.appName}>Fintech App</Text>
         {/* <Text style={styles.tagline}>some sub text or something</Text> */}
-        <Text style={styles.tagline}>
+        <Text style={styles.googleButtonText}>
           smart budgeting for a borderless world
         </Text>
       </View>
