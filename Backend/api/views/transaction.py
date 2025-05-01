@@ -12,7 +12,8 @@ from datetime import date
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
-import datetime
+from datetime import datetime
+from django.utils import timezone
 # from api.permissions import IsOwner
 
 class TransactionListView(generics.ListCreateAPIView):
@@ -187,6 +188,7 @@ class TransactionSearchView(APIView):
         if start_date:
             try:
                 start_date = datetime.strptime(start_date, '%Y-%m-%d')
+                start_date = timezone.make_aware(start_date, timezone.get_current_timezone())
                 transactions = transactions.filter(transaction_date__gte=start_date)
             except ValueError:
                 return Response({"detail": "Invalid start_date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
@@ -194,17 +196,26 @@ class TransactionSearchView(APIView):
         if end_date:
             try:
                 end_date = datetime.strptime(end_date, '%Y-%m-%d')
+                end_date = timezone.make_aware(end_date, timezone.get_current_timezone())
                 transactions = transactions.filter(transaction_date__lte=end_date)
             except ValueError:
                 return Response({"detail": "Invalid end_date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
         
         # Filter by category if provided
+        # if category:
+        #     try:
+        #         category = Category.objects.get(id=category)
+        #         transactions = transactions.filter(category=category)
+        #     except Category.DoesNotExist:
+        #         return Response({"detail": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
+
         if category:
             try:
-                category = Category.objects.get(id=category)
+                # get the category by title and ensure it belongs to the user
+                category = Category.objects.get(title=category, user=user)
                 transactions = transactions.filter(category=category)
             except Category.DoesNotExist:
-                return Response({"detail": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"detail": "Category not found or does not belong to the user."}, status=status.HTTP_404_NOT_FOUND)
         
         # Filter by location if provided
         if location:
