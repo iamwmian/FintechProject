@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { SignOutButton } from "../../components/SignOutButton";
+import { useAuthStore } from "../../core/global";
 
 export default function SettingsScreen() {
   const [form, setForm] = useState({
@@ -18,6 +20,10 @@ export default function SettingsScreen() {
     emailNotifications: true,
     pushNotifications: false,
   });
+  const user = useAuthStore.getState().user;
+  const userId = user.id;
+  const {name, email} = user;
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -42,16 +48,15 @@ export default function SettingsScreen() {
         </TouchableOpacity>
 
         <View>
-          <Text style={styles.profileName}>John Doe</Text>
+          <Text style={styles.profileName}>{name}</Text>
 
-          <Text style={styles.profileEmail}>
-            john.doe@gmail.com
-          </Text>
+          <Text style={styles.profileEmail}>{email}</Text>
         </View>
       </View>
 
       <ScrollView>
         <View style={styles.section}>
+          <SignOutButton />
           <Text style={styles.sectionTitle}>Preferences</Text>
 
           <TouchableOpacity
@@ -125,7 +130,11 @@ export default function SettingsScreen() {
           >
             <View style={[styles.rowIcon, { backgroundColor: "#fc0001" }]}>
               {/* <FeatherIcon color="#fff" name="alert-triangle" size={20} /> */}
-              <MaterialCommunityIcons name='exclamation-thick' size={20} color='#fff'></MaterialCommunityIcons>
+              <MaterialCommunityIcons
+                name="exclamation-thick"
+                size={20}
+                color="#fff"
+              ></MaterialCommunityIcons>
             </View>
 
             <Text style={styles.rowLabel}>Report Bug</Text>

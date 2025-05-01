@@ -136,7 +136,7 @@ const CategoryDropdown = ({
                     onPress={() => handleSelect(item)}
                   >
                     <View style={styles.listItemContent}>
-                      <Text style={styles.listItemText}>
+                      <Text style={[styles.listItemText, { color: item.color, fontWeight:800 }]}>
                         {item.title} ({item.currency})
                       </Text>
                       <Text style={[styles.currencyText, { color: item.color }]}>
