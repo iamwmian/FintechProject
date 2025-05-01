@@ -1,4 +1,5 @@
 to start virtual environment (Windows)
+in root directory.
 .venv/Scripts/activate
 
 to deactivate just type

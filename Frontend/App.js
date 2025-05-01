@@ -40,7 +40,7 @@ const RootNavigator = () => {
       ) : (
         <SafeAreaProvider>
           <SafeAreaView style={{ flex: 1 }}>
-            {isNewUser ? <SetupStack /> : <AppStack />}
+            {!isNewUser ? <SetupStack /> : <AppStack />}
           </SafeAreaView>
         </SafeAreaProvider>
       )}

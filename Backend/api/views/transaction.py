@@ -2,6 +2,8 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import filters
 from api.models.transaction import Transaction
+from api.models.user import User
+from api.models.category import Category
 from api.serializers.transaction import TransactionSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -10,6 +12,7 @@ from datetime import date
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
+import datetime
 # from api.permissions import IsOwner
 
 class TransactionListView(generics.ListCreateAPIView):
@@ -73,3 +76,148 @@ class TransactionViewSet(viewsets.ViewSet):
         serializer = TransactionSerializer(queryset, many=True)
         return Response(serializer.data)
     
+
+
+class GeneralTransactionView(APIView):
+    
+    def get(self, request, user_id):
+        """Get all transactions for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        transactions = Transaction.objects.filter(user=user)
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request, user_id):
+        """Create a new transaction for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Add the user to the request data before saving
+        request.data['user'] = user.id
+        serializer = TransactionSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TransactionActionView(APIView):
+
+    def get(self, request, user_id, transaction_id):
+        """Get a specific transaction for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+            transaction = Transaction.objects.get(id=transaction_id, user=user)
+        except (User.DoesNotExist, Transaction.DoesNotExist):
+            return Response({"detail": "Transaction not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TransactionSerializer(transaction)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self, request, user_id, transaction_id):
+        """Update a specific transaction for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+            transaction = Transaction.objects.get(id=transaction_id, user=user)
+        except (User.DoesNotExist, Transaction.DoesNotExist):
+            return Response({"detail": "Transaction not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serialize the data from the request and update the transaction
+        serializer = TransactionSerializer(transaction, data=request.data, partial=False)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, user_id, transaction_id):
+        """Partially update a specific transaction for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+            transaction = Transaction.objects.get(id=transaction_id, user=user)
+        except (User.DoesNotExist, Transaction.DoesNotExist):
+            return Response({"detail": "Transaction not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serialize the data from the request and update the transaction (partial update)
+        serializer = TransactionSerializer(transaction, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, user_id, transaction_id):
+        """Delete a specific transaction for a user"""
+        try:
+            user = User.objects.get(id=user_id)
+            transaction = Transaction.objects.get(id=transaction_id, user=user)
+        except (User.DoesNotExist, Transaction.DoesNotExist):
+            return Response({"detail": "Transaction not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        transaction.delete()
+        return Response({"detail": "Transaction deleted successfully."}, status=status.HTTP_200_OK)
+    
+class TransactionSearchView(APIView):
+    
+    def get(self, request, user_id):
+        """Search transactions for a user with multiple filters"""
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"detail": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Initialize the base query
+        transactions = Transaction.objects.filter(user=user)
+        
+        # Handle filters
+        start_date = request.query_params.get('start_date', None)
+        end_date = request.query_params.get('end_date', None)
+        category = request.query_params.get('category', None)
+        location = request.query_params.get('location', None)
+        currency = request.query_params.get('currency', None)
+        title = request.query_params.get('title', None)
+        
+        # Filter by start_date and end_date if provided
+        if start_date:
+            try:
+                start_date = datetime.strptime(start_date, '%Y-%m-%d')
+                transactions = transactions.filter(transaction_date__gte=start_date)
+            except ValueError:
+                return Response({"detail": "Invalid start_date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if end_date:
+            try:
+                end_date = datetime.strptime(end_date, '%Y-%m-%d')
+                transactions = transactions.filter(transaction_date__lte=end_date)
+            except ValueError:
+                return Response({"detail": "Invalid end_date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Filter by category if provided
+        if category:
+            try:
+                category = Category.objects.get(id=category)
+                transactions = transactions.filter(category=category)
+            except Category.DoesNotExist:
+                return Response({"detail": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Filter by location if provided
+        if location:
+            transactions = transactions.filter(location__icontains=location)
+        
+        # Filter by currency if provided
+        if currency:
+            transactions = transactions.filter(currency__icontains=currency)
+        
+        # Filter by title if provided
+        if title:
+            transactions = transactions.filter(title__icontains=title)
+        
+        # Serialize the filtered transactions
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

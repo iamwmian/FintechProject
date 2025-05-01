@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
 import { COLORS } from '../common/theme';
 import { StyleSheet } from 'react-native';
+import pBudgetManipulationScreen from '../screens/BudgetManipulation/budget-screen';
+import BudgetManipulationScreen from '../screens/BudgetManipulation';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,15 +22,21 @@ export const TabLayout = () => {
             if (route.name == "Home") {
                 iconName = focused ? 'home' : 'home-outline'
             }
+            else if(route.name == "Budget") {
+              iconName = `cash${focused ? "" : "-outline"}`
+            }
             else if(route.name == "Profile") {
                 iconName = `person${focused ? "" : "-outline"}`
             }
+
 
             return <Ionicons name={iconName} size = {focused ? size : size} color = {color}/>
         }
     })}>
       <Tab.Screen name="Home" options={{title:"Home"}} component={HomeScreen} />
+      <Tab.Screen name="Budget" component={BudgetManipulationScreen} />
       <Tab.Screen name="Profile" component={SettingsScreen} />
+      
     </Tab.Navigator>
   );
 }
