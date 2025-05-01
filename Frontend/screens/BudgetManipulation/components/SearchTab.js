@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, TextInput, ScrollView, StyleSheet, Animated } from "react-native"
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons"
 import { COLORS } from "../utils/constants"
-import { formatDate } from "../utils/formatters"
+import { formatDate, toISOStringFormat } from "../utils/formatters"
 import TransactionCard from "./TransactionCard"
 
 const SearchTab = ({
@@ -53,7 +53,7 @@ const SearchTab = ({
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.activeFilters}>
             {filters.startDate && (
               <View style={styles.activeFilterPill}>
-                <Text style={styles.activeFilterText}>From: {formatDate(filters.startDate)}</Text>
+                <Text style={styles.activeFilterText}>From: {formatDate(new Date(filters.startDate))}</Text>
                 <TouchableOpacity
                   onPress={() => setFilters({ ...filters, startDate: null })}
                   style={styles.removeFilterButton}
@@ -64,7 +64,7 @@ const SearchTab = ({
             )}
             {filters.endDate && (
               <View style={styles.activeFilterPill}>
-                <Text style={styles.activeFilterText}>To: {formatDate(filters.endDate)}</Text>
+                <Text style={styles.activeFilterText}>To: {formatDate(new Date(filters.endDate))}</Text>
                 <TouchableOpacity
                   onPress={() => setFilters({ ...filters, endDate: null })}
                   style={styles.removeFilterButton}
@@ -84,7 +84,6 @@ const SearchTab = ({
                 </TouchableOpacity>
               </View>
             )}
-            // In the activeFilters section of SearchTab.js, update the country and currency filter pills:
 
           {filters.country && (
             <View style={styles.activeFilterPill}>
@@ -136,7 +135,7 @@ const SearchTab = ({
         </View>
       ) : isFiltering ? (
         filteredTransactions.map((transaction) => {
-          const category = categories.find((c) => c.name === transaction.category)
+          const category = categories.find((c) => c.title === transaction.category_title)
           const categoryColor = category ? category.color : COLORS.textSecondary
 
           return (
