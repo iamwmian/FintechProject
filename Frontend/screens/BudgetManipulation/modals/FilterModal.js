@@ -17,7 +17,7 @@ import { COLORS } from "../utils/constants"
 import { formatDate } from "../utils/formatters"
 import CurrencyDropdown from "../components/CurrencyDropdown"
 import CountryDropdown from "../components/CountryDropdown"
-
+import CategoryDropdown from "../components/CategoryDropdown"
 const FilterModal = ({
   visible,
   onClose,
@@ -76,6 +76,12 @@ const FilterModal = ({
     setFilters({ ...filters, country: countryName })
   }
 
+  const handleCategorySelect = (category, id) => 
+  {
+    console.log("Filter: Selected category:", category)
+    setFilters({ ...filters, category: category })
+  }
+
   return (
     <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
       <KeyboardAvoidingView
@@ -127,13 +133,20 @@ const FilterModal = ({
 
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Category</Text>
-              <TextInput
+              {/* <TextInput
                 style={styles.input}
                 placeholder="Enter category name"
                 placeholderTextColor={COLORS.textSecondary}
                 value={filters.category}
                 onChangeText={(text) => setFilters((prev) => ({ ...prev, category: text }))}
+              /> */}
+              <CategoryDropdown
+                selectedValue={filters.category}
+                // onSelect={(category) => setSelectedCategory(category)}
+                onSelect={handleCategorySelect}
+                placeholder="Select Category"
               />
+              
             </View>
 
             <View style={styles.inputGroup}>
