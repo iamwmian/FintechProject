@@ -61,6 +61,7 @@ class JWTAuthenticationMiddleware(BaseAuthentication):
                 token,
                 public_key,
                 algorithms=["RS256"],
+                leeway=300,
                 # options={"verify_signature": True},
                 # issuer=CLERK_FRONTEND_API_URL,
             )
