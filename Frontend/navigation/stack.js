@@ -6,6 +6,8 @@ import Splash from "../screens/Splash/Splash";
 import { TabLayout } from "./tabs";
 import { NewLogin } from "../screens/SignIn/new-login";
 import { Setup } from "../screens/Setup/Setup";
+import InitialSettingCurrency from "../screens/InitialSetting/InitialSettingCurrency";
+import InitialSettingBudget from "../screens/InitialSetting/InitialSettingBudget";
 const Stack = createStackNavigator();
 
 export const AuthenticationStack = () => {
@@ -33,6 +35,8 @@ export const SetupStack = () => {
   return (
     <Stack.Navigator screenOptions={() => navOptions(navigation)}>
       <Stack.Screen name = "Setup" component={Setup}/>
+      <Stack.Screen name = "InitialSettingCurrency" component={InitialSettingCurrency} />
+      <Stack.Screen name = "InitialSettingBudget" component={InitialSettingBudget} />
     </Stack.Navigator>
   )
 }
