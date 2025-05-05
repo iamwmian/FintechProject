@@ -1,5 +1,5 @@
 import { useClerk } from "@clerk/clerk-expo";
-import * as Linking from "expo-linking";
+// import * as Linking from "expo-linking";
 import { Text, TouchableOpacity } from "react-native";
 import { useAuthStore } from "../core/global";
 import FeatherIcon from "react-native-vector-icons/Feather";
@@ -13,7 +13,7 @@ export const SignOutButton = () => {
       await signOut();
       useAuthStore.getState().logout();
       // Redirect to your desired page
-      Linking.openURL(Linking.createURL("/"));
+      // Linking.openURL(Linking.createURL("/"));
     } catch (err) {
       // See https://clerk.com/docs/custom-flows/error-handling
       // for more info on error handling
