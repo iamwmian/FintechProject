@@ -1,4 +1,4 @@
-[App Name]
+# Kaikei     
 
 # Industry
 FinTech 
@@ -14,7 +14,7 @@ Standard banking platforms fail to provide multi-currency support
 # Use Case 
 Meet Alex, a UTD student prepping for a semester in Tokyo. Alex set a $2000 budget but quickly realizes tracking expenses in Yen while thinking in Dollars is tricky. ¥500 for coffee sounds small, but how does it fit into the overall USD budget? Without constant mental gymnastics or manual tracking, it's easy to lose sight of the bigger financial picture. Standard banking apps offer little help here, lacking integrated multi-currency tools.
 
-[Your App Name] is designed for students like Alex. Our app automatically converts and tracks spending in real-time, displaying amounts in both JPY and USD. Alex can now confidently navigate Tokyo, knowing exactly how each purchase impacts their original budget, freeing them up to focus on their studies and cultural experience.
+Kaikei is designed for students like Alex. Our app automatically converts and tracks spending in real-time, displaying amounts in both JPY and USD. Alex can now confidently navigate Tokyo, knowing exactly how each purchase impacts their original budget, freeing them up to focus on their studies and cultural experience.
 
 
 # User Experience 
