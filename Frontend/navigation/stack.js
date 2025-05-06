@@ -8,6 +8,8 @@ import { NewLogin } from "../screens/SignIn/new-login";
 import { Setup } from "../screens/Setup/Setup";
 import InitialSettingCurrency from "../screens/InitialSetting/InitialSettingCurrency";
 import InitialSettingBudget from "../screens/InitialSetting/InitialSettingBudget";
+import DashboardScreen from "../screens/Dashboard/DashboardScreen";
+
 const Stack = createStackNavigator();
 
 export const AuthenticationStack = () => {
@@ -34,9 +36,9 @@ export const SetupStack = () => {
   const navigation = useNavigation();
   return (
     <Stack.Navigator screenOptions={() => navOptions(navigation)}>
-      <Stack.Screen name = "Setup" component={Setup}/>
       <Stack.Screen name = "InitialSettingCurrency" component={InitialSettingCurrency} />
       <Stack.Screen name = "InitialSettingBudget" component={InitialSettingBudget} />
+      <Stack.Screen name = "Setup" component={Setup}/>
     </Stack.Navigator>
   )
 }
@@ -45,6 +47,7 @@ export const AppStack = () => {
   const navigation = useNavigation();
   return (
     <Stack.Navigator screenOptions={() => navOptions(navigation)}>
+      <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
       <Stack.Screen name="HomeTabs" component={TabLayout} />
     </Stack.Navigator>
   )

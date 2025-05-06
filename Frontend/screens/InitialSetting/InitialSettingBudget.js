@@ -1,3 +1,4 @@
+import { useAuthStore } from '../../core/global';
 import React, { useState } from 'react';
 import { 
   View, 
@@ -88,6 +89,17 @@ const InitialSettingBudget = () => {
       delete newErrors[categoryId];
     }
     setErrors(newErrors);
+  };
+
+  const handleNext = () => {
+    // 입력값 검증/저장 등 필요한 로직...
+    console.log("handleNext 진입");
+    // isNewUser를 false로 바꿔서 RootNavigator가 AppStack을 렌더링하게 만듦
+    useAuthStore.getState().setAuth({
+      ...useAuthStore.getState(),
+      isNewUser: false,
+    });
+    console.log("handleNext 종료");
   };
 
   return (
@@ -244,7 +256,7 @@ const InitialSettingBudget = () => {
       <View style={styles.footer}>
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => navigation.navigate('HomeTabs')}
+          onPress={handleNext}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
