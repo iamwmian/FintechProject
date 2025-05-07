@@ -4,12 +4,12 @@ import { SignOutButton } from "../../components/SignOutButton";
 import { useAuthStore } from "../../core/global";
 const HomeScreen = ({ navigation }) => {
   const user = useAuthStore.getState().user;
-    const userId = user.id;
-    const {first_name} = user;
+  const userId = user.id;
+  const {first_name} = user;
   return (
     <View>
       <Text>Home Screen</Text>
-      <Text>Hello {first_name}</Text>
+      <Text>Hello {first_name} {userId} </Text>
       <SignOutButton />
     </View>
   );

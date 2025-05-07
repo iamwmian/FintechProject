@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   TouchableOpacity, 
@@ -10,10 +10,12 @@ import {
   Animated,
   Dimensions
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { BASE_URL } from "@env"
+import axios from 'axios';
+import { useAuthStore } from '../../core/global';
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = (width - 40) / 2 - 10;
 
@@ -28,21 +30,68 @@ const standardCategories = [
   { id: '8', name: 'Education', icon: 'school' },
 ];
 
-const InitialSettingBudget = () => {
-  const navigation = useNavigation();
+const InitialSettingBudget = ({navigation, route}) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [customCategories, setCustomCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [budgets, setBudgets] = useState({});
   const [errors, setErrors] = useState({});
+  const [initCategories, setInitCategories] = useState([]);
+  const { mainCurrency, additionalCurrencies } = route.params;
+  const user = useAuthStore.getState().user;
+  // const userId = user.id;
+  const userId = 3;
+  // Update initCategories whenever selectedCategories or budgets change
+  useEffect(() => {
+    const categories = [];
+    const categoryNames = new Set();
+
+    const addCategory = (category) => {
+      if (!categoryNames.has(category.title)) {
+        categories.push(category);
+        categoryNames.add(category.title);
+      }
+    };
+    
+    standardCategories.forEach(category => {
+      if (selectedCategories.includes(category.id)) {
+        addCategory({
+          title: category.name,
+          monthly_budget: parseFloat(budgets[category.id] || 0),
+          currency: mainCurrency.code,
+          color: generateRandomColor()
+        });
+      }
+    });
+    
+    customCategories.forEach(category => {
+      if (selectedCategories.includes(category.id)) {
+        addCategory({
+          title: category.name,
+          monthly_budget: parseFloat(budgets[category.id] || 0),
+          currency: mainCurrency.code,
+          color: generateRandomColor()
+        });
+      }
+    });
+    
+    setInitCategories(categories);
+  }, [selectedCategories, customCategories, budgets, mainCurrency]);
 
   const formatCurrency = (value) => {
     if (!value) return '';
-    return `$${parseFloat(value).toLocaleString('en-US', {
+    return `${parseFloat(value).toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     })}`;
   };
+
+  const generateRandomColor = () => {
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
+  console.log("Passed Params: ", mainCurrency, additionalCurrencies);
+  // Passed Params:  {"code": "USD", "name": "USD"} [{"code": "AED", "name": "AED"}, {"code": "AUD", "name": "AUD"}]
 
   const formatInput = (value) => {
     return value.replace(/[^0-9.]/g, '');
@@ -89,6 +138,50 @@ const InitialSettingBudget = () => {
     }
     setErrors(newErrors);
   };
+
+  const handleSetup = async () => {
+    try {
+      const url = `${BASE_URL}/api/users/setup/user/${userId}/`;
+  
+      console.log("Passed Params: ", mainCurrency, additionalCurrencies);
+  
+      const main = mainCurrency.code;
+      const additional = additionalCurrencies.map(curr => curr.code);
+  
+      const payload = {
+        main_currency: main,
+        additional_currencies: additional,
+        categories: initCategories
+      };
+  
+      console.log("Custom Categories: ", customCategories, selectedCategories);
+      console.log("Payload: ", payload);
+      console.log("Budgets: ", budgets);
+      console.log("Categories for API:", initCategories);
+  
+      const response = await axios.post(url, payload);
+  
+      console.log("Response Data: ", response.data);
+      const responseUser = response.data.user;
+      useAuthStore.getState().setAuth({
+        isNewUser: !responseUser.complete_setup,
+        user: responseUser, 
+      });
+      console.log(useAuthStore.getState())
+  
+    } catch (error) {
+      console.error("Error during setup request:", error);
+  
+      if (error.response) {
+        console.error("Response Error: ", error.response.data);
+      } else if (error.request) {
+        console.error("Request Error: ", error.request);
+      } else {
+        console.error("Unknown Error: ", error.message);
+      }
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -244,7 +337,8 @@ const InitialSettingBudget = () => {
       <View style={styles.footer}>
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => navigation.navigate('HomeTabs')}
+          // onPress={() => navigation.navigate('HomeTabs')}
+          onPress={() => handleSetup()}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
@@ -440,4 +534,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InitialSettingBudget; 
+export default InitialSettingBudget;

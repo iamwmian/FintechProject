@@ -9,10 +9,10 @@ import {
   FlatList,
   ScrollView
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
-const InitialSettingCurrency = () => {
-  const navigation = useNavigation();
+
+const InitialSettingCurrency = ({navigation}) => {
+
   const [currencies, setCurrencies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -157,6 +157,7 @@ const InitialSettingCurrency = () => {
                 renderItem={renderCurrencyItem}
                 keyExtractor={item => item.code}
                 style={styles.currencyList}
+                nestedScrollEnabled={true}
               />
             </View>
           </View>
@@ -166,7 +167,7 @@ const InitialSettingCurrency = () => {
       <View style={styles.footer}>
         <TouchableOpacity 
           style={[styles.button, (!mainCurrency || additionalCurrencies.length === 0) && styles.buttonDisabled]}
-          onPress={() => navigation.navigate('InitialSettingBudget')}
+          onPress={() => handleNext()}
           disabled={!mainCurrency || additionalCurrencies.length === 0}
         >
           <Text style={styles.buttonText}>Next</Text>
