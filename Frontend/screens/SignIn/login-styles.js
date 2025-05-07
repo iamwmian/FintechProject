@@ -5,7 +5,7 @@ const { width, height } = Dimensions.get("window");
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.login_background,
   },
 
   brandSection: {
@@ -27,13 +27,13 @@ export const styles = StyleSheet.create({
     fontSize: 42,
     fontWeight: "700",
     fontFamily: "JetBrainsMono-Medium",
-    color: COLORS.primary,
+    color: COLORS.yellow,
     letterSpacing: 0.5,
     marginBottom: 8,
   },
   tagline: {
     fontSize: 16,
-    color: COLORS.grey,
+    color: COLORS.yellow,
     letterSpacing: 1,
     textTransform: "lowercase",
   },
@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
   termsText: {
     textAlign: "center",
     fontSize: 12,
-    color: COLORS.grey,
+    color: COLORS.yellow,
     maxWidth: 280,
   },
 });

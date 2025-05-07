@@ -72,11 +72,11 @@ export const NewLogin = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.brandSection}>
         <View style={styles.logoContainer}>
-          <Fontisto name="wallet" size={32} color={COLORS.primary} />
+          <Fontisto name="wallet" size={32} color={COLORS.login_icon} />
         </View>
-        <Text style={styles.appName}>Fintech App</Text>
+        <Text style={styles.appName}>Kaikei</Text>
         {/* <Text style={styles.tagline}>some sub text or something</Text> */}
-        <Text style={styles.googleButtonText}>
+        <Text style={styles.tagline}>
           smart budgeting for a borderless world
         </Text>
       </View>
