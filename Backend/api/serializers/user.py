@@ -21,7 +21,9 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'name',
             'clerk_id',
-            'complete_setup'
+            'complete_setup',
+            'additional_currencies',
+            'main_currency'
         ]
         
     def get_name(self, obj):

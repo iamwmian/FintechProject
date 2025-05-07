@@ -25,6 +25,8 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     clerk_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
     complete_setup = models.BooleanField(default=False)
+    additional_currencies = models.JSONField(default=list, blank=True)
+    main_currency = models.CharField(max_length=5, default="USD")
 
     USERNAME_FIELD = 'email'
     objects = UserManager()
