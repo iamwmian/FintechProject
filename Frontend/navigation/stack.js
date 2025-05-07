@@ -34,7 +34,7 @@ export const SetupStack = () => {
   const navigation = useNavigation();
   return (
     <Stack.Navigator screenOptions={() => navOptions(navigation)}>
-      <Stack.Screen name = "Setup" component={Setup}/>
+      {/* <Stack.Screen name = "Setup" component={Setup}/> */}
       <Stack.Screen name = "InitialSettingCurrency" component={InitialSettingCurrency} />
       <Stack.Screen name = "InitialSettingBudget" component={InitialSettingBudget} />
     </Stack.Navigator>
