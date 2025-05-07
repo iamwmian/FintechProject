@@ -1,5 +1,9 @@
-# Kaikei     
-
+# Kaikei       
+  
+# Youtube Demo     
+https://youtu.be/QvIN03cb0jw        
+# Pitch Deck      
+https://www.canva.com/design/DAGmhSMl1MQ/IlEZyNzYXDCrUNdZlDjIqg/edit?utm_content=DAGmhSMl1MQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton      
 # Industry
 FinTech 
 # Platform
