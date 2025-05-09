@@ -45,7 +45,7 @@ Version Control: GitHub
 4. https://www.guidde.com - we will use this to produce a how-to video for our pitch deck
 
 # Roles & Contributions      
-Product/Project Manager: Wassil - determine scope, lead weekly meetings, organize pitch deck + this .readme file lol             
+Product Manager: Wassil - determine scope, lead weekly meetings, organize pitch deck + this .readme file lol                
 Developer: David - user login and authentication          
 Developer: Yoon - initial set up and user welcome     
 Developer: Neal - dashboard and tabs     
